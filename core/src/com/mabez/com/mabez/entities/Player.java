@@ -109,7 +109,7 @@ public class Player extends SpaceObject {
             fire(x,y,directionRad);
         }
 
-        if(shift){//not working
+        if(shift){//not workings
             boostTimer+=dt;
             if(boostTimer<boostTime) {
                 maxSpeed = 400;
