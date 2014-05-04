@@ -1,5 +1,6 @@
 package com.mabez.managers;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.mabez.com.mabez.gameStates.BaseState;
 import com.mabez.com.mabez.gameStates.MenuState;
 
@@ -12,9 +13,12 @@ public class SceneManager {
     protected static final int GAME = 1;
     protected static final int GG = 2;
     private static BaseState currentState;
+    public OrthographicCamera cam;
 
-    public SceneManager() {
+    public SceneManager(OrthographicCamera cam) {
+        this.cam = cam;
         setState(MENU);
+
     }
 
     public void setState(int i){

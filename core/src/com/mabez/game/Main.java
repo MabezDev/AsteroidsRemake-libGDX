@@ -3,6 +3,7 @@ package com.mabez.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mabez.managers.MyInputProccesor;
@@ -13,13 +14,20 @@ public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
     private SceneManager sm;
-	
-	@Override
+    private OrthographicCamera cam;
+    public static int camHeight;
+    public static int camWidth;
+
+    public Main(int height,int width) {
+        camWidth=width;
+        camHeight=height;
+    }
+
+    @Override
 	public void create () {
-		batch = new SpriteBatch();
-		//img = new Texture("badlogic.jpg");
+	    cam = new OrthographicCamera(camWidth,camHeight);
         Gdx.input.setInputProcessor(new MyInputProccesor());
-        sm = new SceneManager();
+        sm = new SceneManager(cam);
 	}
 
 	@Override

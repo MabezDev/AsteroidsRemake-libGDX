@@ -24,7 +24,7 @@ public class MenuState extends BaseState {
         font = new BitmapFont();
         font.setColor(Color.GREEN);
         sb = new SpriteBatch();
-        player = new Player();
+        player = new Player(sm.cam);
         sr = new ShapeRenderer();
         player.setShape();
 
@@ -43,16 +43,31 @@ public class MenuState extends BaseState {
 
     @Override
     public void update(float dt) {
+
         player.update(dt);
     }
 
     @Override
     public void HandleInput() {
         if(MyKeys.isDown(MyKeys.W)){
-            font.setColor(Color.BLUE);
-            System.out.println("W");
+            player.up=true;
         } else {
-            font.setColor(Color.GREEN);
+            player.up=false;
+        }
+        if(MyKeys.isDown(MyKeys.A)){
+            player.left=true;
+        } else {
+            player.left=false;
+        }
+        if(MyKeys.isDown(MyKeys.D)){
+            player.right=true;
+        } else {
+            player.right=false;
+        }
+        if(MyKeys.isDown(MyKeys.SPACE)){
+            player.space=true;
+        } else {
+            player.space=false;
         }
     }
 

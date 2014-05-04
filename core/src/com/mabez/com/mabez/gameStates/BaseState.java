@@ -6,7 +6,7 @@ import com.mabez.managers.SceneManager;
  * Created by user on 03/05/2014.
  */
 public abstract class BaseState {
-    private SceneManager sm;
+    protected SceneManager sm;
     public BaseState(SceneManager sm){
         this.sm=sm;
         init();
