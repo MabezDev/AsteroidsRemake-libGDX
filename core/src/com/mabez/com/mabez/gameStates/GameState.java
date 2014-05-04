@@ -69,6 +69,12 @@ public class GameState extends BaseState {
         } else {
             player.space=false;
         }
+        if(MyKeys.isPressed(MyKeys.SHIFT)){
+            player.shift=true;
+        } else {
+            player.shift=false;
+        }
+
     }
 
     @Override

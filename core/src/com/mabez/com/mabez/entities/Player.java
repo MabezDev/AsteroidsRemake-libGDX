@@ -16,6 +16,7 @@ public class Player extends SpaceObject {
     public boolean right;
     public boolean up;
     public boolean space;
+    public boolean shift;
     private static final int maxBullets = 4;
 
     private float maxSpeed;
@@ -25,6 +26,8 @@ public class Player extends SpaceObject {
     private ArrayList<Bullet> bullets;
     protected OrthographicCamera cam;
     float vel;
+    private float boostTimer;
+    private float boostTime;
 
     public Player(OrthographicCamera cam) {
         this.cam=cam;
@@ -39,6 +42,8 @@ public class Player extends SpaceObject {
         shapey = new float[4];
         rotationSpeed = Pi;
         bullets = new ArrayList<Bullet>();
+        boostTimer = 0;
+        boostTime = 1;
 
     }
 
@@ -74,44 +79,53 @@ public class Player extends SpaceObject {
             y=0;
         }
         //up is going forward
-        if(up){
-            if(vel<maxSpeed) {
-                dx += MathUtils.cos(directionRad) * acceleration * dt;
-                dy += MathUtils.sin(directionRad) * acceleration * dt;
-                x += dx * dt;
-                y += dy * dt;
-            } else {
-                dx =(dx / vel)*maxSpeed;
-                dy = (dy / vel)*maxSpeed;
-                x+=dx*dt;
-                y+=dy*dt;
-
-            }
-        }else{
-            if(vel>0) {
-                dx -= MathUtils.cos(directionRad) * retardation * dt;
-                dy -= MathUtils.sin(directionRad) * retardation * dt;
-                x += dx * dt;
-                y += dy * dt;
-            } else if (vel<=0){//this is bugged, after inital movement, keep decelerating backwards
-                dx = 0;
-                dy = 0;
-                x += dx * dt;
-                y += dy * dt;
-            }
+        if(left) {
+            directionRad += rotationSpeed * dt;
+        }
+        else if(right) {
+            directionRad -= rotationSpeed * dt;
         }
 
+        // accelerating
+        if(up) {
+            dx += MathUtils.cos(directionRad) * acceleration * dt;
+            dy += MathUtils.sin(directionRad) * acceleration * dt;
+        }
 
-        if(left){
-            directionRad += rotationSpeed*dt;
+        // deceleration
+        float vec = (float) Math.sqrt(dx * dx + dy * dy);
+        if(vec > 0) {
+            dx -= (dx / vec) * retardation * dt;
+            dy -= (dy / vec) * retardation * dt;
         }
-        if(right){
-            directionRad -= rotationSpeed*dt;
+        if(vec > maxSpeed) {
+            dx = (dx / vec) * maxSpeed;
+            dy = (dy / vec) * maxSpeed;
         }
+
+        // set position
+
         if(space){
             fire(x,y,directionRad);
         }
 
+        if(shift){//not working
+            boostTimer+=dt;
+            if(boostTimer<boostTime) {
+                maxSpeed = 400;
+                System.out.println("BOOST-ACTIVATED");
+                dx += MathUtils.cos(directionRad) * 2;
+                dy += MathUtils.sin(directionRad) * 2;
+            }
+            boostTimer = 0;
+            System.out.println("BOOST-DE-ACTIVATED");
+        } else{
+            maxSpeed = 250;
+        }
+
+
+        x += dx * dt;
+        y += dy * dt;
         //update bullets
         for(int i=0; i<bullets.size();i++){
             if(bullets.get(i).shouldRemove()){
