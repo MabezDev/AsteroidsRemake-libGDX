@@ -43,6 +43,8 @@ public class Player extends SpaceObject {
     }
 
     public void setShape(){
+
+        //vertices of polygon
         shapex[0] = x + MathUtils.cos(directionRad)*8;
         shapey[0] = y +MathUtils.sin(directionRad)*8;
 
@@ -91,6 +93,11 @@ public class Player extends SpaceObject {
                 dy -= MathUtils.sin(directionRad) * retardation * dt;
                 x += dx * dt;
                 y += dy * dt;
+            } else if (vel<=0){//this is bugged, after inital movement, keep decelerating backwards
+                dx = 0;
+                dy = 0;
+                x += dx * dt;
+                y += dy * dt;
             }
         }
 
@@ -104,6 +111,8 @@ public class Player extends SpaceObject {
         if(space){
             fire(x,y,directionRad);
         }
+
+        //update bullets
         for(int i=0; i<bullets.size();i++){
             if(bullets.get(i).shouldRemove()){
                 bullets.remove(i);
@@ -123,7 +132,7 @@ public class Player extends SpaceObject {
         }
 
         sr.end();
-
+        //render bullets
         for(Bullet b: bullets){
             b.draw(sr);
         }

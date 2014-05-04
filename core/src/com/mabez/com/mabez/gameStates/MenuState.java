@@ -15,18 +15,10 @@ public class MenuState extends BaseState {
     public MenuState(SceneManager sm) {
         super(sm);
     }
-    private BitmapFont font;
-    private SpriteBatch sb;
-    private ShapeRenderer sr;
-    private Player player;
+
     @Override
     public void init() {
-        font = new BitmapFont();
-        font.setColor(Color.GREEN);
-        sb = new SpriteBatch();
-        player = new Player(sm.cam);
-        sr = new ShapeRenderer();
-        player.setShape();
+
 
 
     }
@@ -35,40 +27,19 @@ public class MenuState extends BaseState {
 
     @Override
     public void render() {
-        sb.begin();
-        font.draw(sb,"Test",100,100);
-        sb.end();
-        player.draw(sr);
+
     }
 
     @Override
     public void update(float dt) {
 
-        player.update(dt);
+
     }
 
     @Override
     public void HandleInput() {
-        if(MyKeys.isDown(MyKeys.W)){
-            player.up=true;
-        } else {
-            player.up=false;
-        }
-        if(MyKeys.isDown(MyKeys.A)){
-            player.left=true;
-        } else {
-            player.left=false;
-        }
-        if(MyKeys.isDown(MyKeys.D)){
-            player.right=true;
-        } else {
-            player.right=false;
-        }
-        if(MyKeys.isDown(MyKeys.SPACE)){
-            player.space=true;
-        } else {
-            player.space=false;
-        }
+
+
     }
 
     @Override

@@ -23,6 +23,7 @@ public class Bullet extends SpaceObject {
     private OrthographicCamera cam;
 
     private float maxSpeed;
+    private float acceleration;
 
 
 
@@ -38,6 +39,7 @@ public class Bullet extends SpaceObject {
         dx = 0;
         dy=0;
         maxSpeed = 350;
+        acceleration = 350;
 
     }
 
@@ -57,8 +59,8 @@ public class Bullet extends SpaceObject {
         }
         float vel = (float) Math.sqrt(dx*dx+dy*dy);
         if(vel<maxSpeed) {
-            dx += MathUtils.cos(directionRad) * 100;
-            dy += MathUtils.sin(directionRad) * 100;
+            dx += MathUtils.cos(directionRad) * acceleration;
+            dy += MathUtils.sin(directionRad) * acceleration;
             x += dx * dt;
             y += dy * dt;
         } else{

@@ -2,6 +2,7 @@ package com.mabez.managers;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.mabez.com.mabez.gameStates.BaseState;
+import com.mabez.com.mabez.gameStates.GameState;
 import com.mabez.com.mabez.gameStates.MenuState;
 
 /**
@@ -17,13 +18,16 @@ public class SceneManager {
 
     public SceneManager(OrthographicCamera cam) {
         this.cam = cam;
-        setState(MENU);
+        setState(GAME);
 
     }
 
     public void setState(int i){
         if(i==MENU){
             currentState = new MenuState(this);
+        }
+        if(i==GAME){
+            currentState = new GameState(this);
         }
     }
 
