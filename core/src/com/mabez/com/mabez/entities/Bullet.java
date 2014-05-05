@@ -43,6 +43,14 @@ public class Bullet extends SpaceObject {
 
     }
 
+    public float getX(){
+        return x;
+    }
+
+    public float getY(){
+        return y;
+    }
+
     public boolean shouldRemove(){return remove;}
 
     public void update(float dt){

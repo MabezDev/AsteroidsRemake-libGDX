@@ -11,39 +11,51 @@ import java.util.ArrayList;
  */
 public class Player extends SpaceObject {
 
+    private static final float Pi = 3.14f;
+    private static final int maxBullets = 4;
 
     public boolean left;
     public boolean right;
     public boolean up;
     public boolean space;
     public boolean shift;
-    private static final int maxBullets = 4;
 
     private float maxSpeed;
     private float acceleration;
     private float retardation;
-    private static final float Pi = 3.14f;
-    private ArrayList<Bullet> bullets;
-    protected OrthographicCamera cam;
-    float vel;
+
+    private float vel;
     private float boostTimer;
     private float boostTime;
 
+    public ArrayList<Bullet> bullets;
+    protected OrthographicCamera cam;
+
+
+
     public Player(OrthographicCamera cam) {
         this.cam=cam;
-        y = 200;
-        x = 200;
+        y = this.cam.viewportHeight/2;//set initialize player in the centre
+        x = this.cam.viewportWidth/2;
+
         dy=0;
         dx=0;
+
         maxSpeed = 250;
+
         acceleration = 150;
-        retardation = 10;
+        retardation = 10;//deceleration
+
         shapex = new float[4];
         shapey = new float[4];
-        rotationSpeed = Pi;
-        bullets = new ArrayList<Bullet>();
+
         boostTimer = 0;
         boostTime = 1;
+
+        directionRad = Pi/2;//set so the player faces up
+        rotationSpeed = Pi;
+
+        bullets = new ArrayList<Bullet>();
 
     }
 
@@ -105,10 +117,11 @@ public class Player extends SpaceObject {
 
         // set position
 
+
         if(space){
             fire(x,y,directionRad);
         }
-
+        /*
         if(shift){//not workings
             boostTimer+=dt;
             if(boostTimer<boostTime) {
@@ -122,19 +135,13 @@ public class Player extends SpaceObject {
         } else{
             maxSpeed = 250;
         }
+        */
 
 
         x += dx * dt;
         y += dy * dt;
         //update bullets
-        for(int i=0; i<bullets.size();i++){
-            if(bullets.get(i).shouldRemove()){
-                bullets.remove(i);
-            } else {
-                bullets.get(i).update(dt);
-            }
 
-        }
         setShape();
     }
 
@@ -147,16 +154,15 @@ public class Player extends SpaceObject {
 
         sr.end();
         //render bullets
-        for(Bullet b: bullets){
-            b.draw(sr);
-        }
+
 
     }
 
-    public void fire(float xsize,float ysize, float direction){
-       if(bullets.size()==maxBullets){return;}
-        else {
-           bullets.add(new Bullet(xsize, ysize, direction,cam));
+    public void fire(float x,float y, float direction){
+       if(bullets.size()== maxBullets){
+           return;
+       } else {
+           bullets.add(new Bullet(x, y, direction,cam));
        }
     }
 }

@@ -13,7 +13,7 @@ public abstract class BaseState {
     }
 
     public abstract void init();
-    public abstract void render();
+    public abstract void draw();
     public abstract void update(float dt);
     public abstract void HandleInput();
     public abstract void dispose();

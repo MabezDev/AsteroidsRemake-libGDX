@@ -10,15 +10,15 @@ import com.mabez.com.mabez.gameStates.MenuState;
  */
 public class SceneManager {
 
-    protected static final int MENU = 0;
-    protected static final int GAME = 1;
-    protected static final int GG = 2;
+    public static final int MENU = 0;
+    public static final int GAME = 1;
+    public static final int GG = 2;
     private static BaseState currentState;
     public OrthographicCamera cam;
 
     public SceneManager(OrthographicCamera cam) {
         this.cam = cam;
-        setState(GAME);
+        setState(MENU);
 
     }
 
@@ -36,6 +36,6 @@ public class SceneManager {
         currentState.HandleInput();
     }
     public void draw(){
-        currentState.render();
+        currentState.draw();
     }
 }
