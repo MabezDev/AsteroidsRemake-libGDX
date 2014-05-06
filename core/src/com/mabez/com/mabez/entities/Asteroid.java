@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 public class Asteroid extends SpaceObject {
 
         private float retardation = 10;
-        private OrthographicCamera cam;
+        private OrthographicCamera cam;//
 
         private boolean shouldRemove;
 
