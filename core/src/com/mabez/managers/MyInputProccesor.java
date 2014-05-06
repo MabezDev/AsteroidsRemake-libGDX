@@ -26,8 +26,11 @@ public class MyInputProccesor implements InputProcessor {
         if(keycode== Input.Keys.SPACE){
             MyKeys.setKeyState(MyKeys.SPACE,true);
         }
-        if(keycode== Input.Keys.SHIFT_LEFT || keycode== Input.Keys.SHIFT_RIGHT){
+        if(keycode== Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT){
             MyKeys.setKeyState(MyKeys.SHIFT,true);
+        }
+        if(keycode == Input.Keys.ESCAPE){
+            MyKeys.setKeyState(MyKeys.ESCAPE,true);
         }
 
 
@@ -54,6 +57,9 @@ public class MyInputProccesor implements InputProcessor {
         }
         if(keycode== Input.Keys.SHIFT_LEFT || keycode== Input.Keys.SHIFT_RIGHT){
             MyKeys.setKeyState(MyKeys.SHIFT,false);
+        }
+        if(keycode ==  Input.Keys.ESCAPE){
+            MyKeys.setKeyState(MyKeys.ESCAPE,false);
         }
 
         return true;

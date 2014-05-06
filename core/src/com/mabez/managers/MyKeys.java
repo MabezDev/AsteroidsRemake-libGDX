@@ -5,13 +5,14 @@ package com.mabez.managers;
  */
 public class MyKeys {
 
-    protected static int NUM_KEYS = 6;
+    protected static int NUM_KEYS = 7;
     public static int W = 0;
     public static int A  =1;
     public static int S  = 2;
     public static int D = 3;
     public static int SPACE = 4;
     public static int SHIFT = 5;
+    public static int ESCAPE = 6;
     private static boolean[] keys = new boolean[NUM_KEYS];;
     private static boolean[] pkeys = new boolean[NUM_KEYS];;
 
@@ -39,5 +40,7 @@ public class MyKeys {
     public static boolean isPressed(int k){
         return !pkeys[k] && keys[k];
     }
+
+
 
 }

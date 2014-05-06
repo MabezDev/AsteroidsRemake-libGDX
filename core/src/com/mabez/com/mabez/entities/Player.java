@@ -20,7 +20,6 @@ public class Player extends SpaceObject {
     public boolean space;
     public boolean shift;
 
-    private float maxSpeed;
     private float acceleration;
     private float retardation;
 
@@ -41,7 +40,7 @@ public class Player extends SpaceObject {
         dy=0;
         dx=0;
 
-        maxSpeed = 250;
+        setMaxSpeed(250);
 
         acceleration = 150;
         retardation = 10;//deceleration
@@ -153,7 +152,7 @@ public class Player extends SpaceObject {
         }
 
         sr.end();
-        //render bullets
+
 
 
     }

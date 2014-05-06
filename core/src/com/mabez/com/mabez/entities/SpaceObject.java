@@ -12,7 +12,7 @@ public class SpaceObject {
     protected float dy;
 
     protected float directionRad;
-    protected float speed;
+    protected float maxSpeed;
     protected float rotationSpeed;
 
     protected int width;
@@ -20,4 +20,16 @@ public class SpaceObject {
 
     protected float[] shapex;
     protected float[] shapey;
+
+    public float getX(){
+        return x;
+    }
+
+    public float getY(){
+        return y;
+    }
+
+    public void setMaxSpeed(float s){
+        maxSpeed = s;
+    }
 }
