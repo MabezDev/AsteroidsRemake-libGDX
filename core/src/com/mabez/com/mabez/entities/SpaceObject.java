@@ -5,6 +5,8 @@ package com.mabez.com.mabez.entities;
  */
 public class SpaceObject {
 
+    protected static final float Pi = 3.14f;
+
     protected float x;
     protected float y;
 
