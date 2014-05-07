@@ -29,6 +29,10 @@ public class SpaceObject {
         return y;
     }
 
+    public float getDirectionRad(){
+        return directionRad;
+    }
+
     public void setMaxSpeed(float s){
         maxSpeed = s;
     }

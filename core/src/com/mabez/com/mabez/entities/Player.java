@@ -1,18 +1,17 @@
 package com.mabez.com.mabez.entities;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.mabez.managers.SceneManager;
 
 import java.util.ArrayList;
 
-/**
- * Created by user on 04/05/2014.
- */
 public class Player extends SpaceObject {
 
     private static final float Pi = 3.14f;
-    private static final int maxBullets = 4;
+
 
     public boolean left;
     public boolean right;
@@ -27,13 +26,19 @@ public class Player extends SpaceObject {
     private float boostTimer;
     private float boostTime;
 
-    public ArrayList<Bullet> bullets;
+
     protected OrthographicCamera cam;
+    private SceneManager sm;
 
 
 
-    public Player(OrthographicCamera cam) {
+
+
+    public Player(OrthographicCamera cam,SceneManager sm) {
         this.cam=cam;
+        this.sm =sm;
+
+
         y = this.cam.viewportHeight/2;//set initialize player in the centre
         x = this.cam.viewportWidth/2;
 
@@ -54,7 +59,7 @@ public class Player extends SpaceObject {
         directionRad = Pi/2;//set so the player faces up
         rotationSpeed = Pi;
 
-        bullets = new ArrayList<Bullet>();
+
 
     }
 
@@ -117,9 +122,7 @@ public class Player extends SpaceObject {
         // set position
 
 
-        if(space){
-            fire(x,y,directionRad);
-        }
+
         /*
         if(shift){//not workings
             boostTimer+=dt;
@@ -157,11 +160,6 @@ public class Player extends SpaceObject {
 
     }
 
-    public void fire(float x,float y, float direction){
-       if(bullets.size()== maxBullets){
-           return;
-       } else {
-           bullets.add(new Bullet(x, y, direction,cam));
-       }
-    }
+
+
 }

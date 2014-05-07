@@ -34,7 +34,7 @@ public class Bullet extends SpaceObject {
         this.directionRad = direction;
         width = 2;
         height = 2;
-        lifeTime = 1;
+        lifeTime = 1.5f;
         lifeTimer = 0;
         dx = 0;
         dy=0;

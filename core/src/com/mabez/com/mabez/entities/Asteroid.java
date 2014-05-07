@@ -4,9 +4,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 
-/**
- * Created by user on 04/05/2014.
- */
 public class Asteroid extends SpaceObject {
 
         private float retardation = 10;
@@ -29,9 +26,12 @@ public class Asteroid extends SpaceObject {
 
 
 
+
     public boolean ShouldRemove(){
          return shouldRemove;
     }
+
+
 
     public void update(float dt){
         directionRad += rotationSpeed*dt;
@@ -47,7 +47,6 @@ public class Asteroid extends SpaceObject {
             dx = (dx / vec) * maxSpeed;
             dy = (dy / vec) * maxSpeed;
         }
-
 
         y+=dy*dt;
         x+=dx*dt;

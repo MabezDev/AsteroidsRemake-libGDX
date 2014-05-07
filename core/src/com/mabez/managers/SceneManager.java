@@ -15,9 +15,11 @@ public class SceneManager {
     public static final int GG = 2;
     private static BaseState currentState;
     public OrthographicCamera cam;
+    public static ResourceManager resourceManager;
 
     public SceneManager(OrthographicCamera cam) {
         this.cam = cam;
+        resourceManager = new ResourceManager();
         setState(MENU);
 
     }

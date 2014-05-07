@@ -1,5 +1,7 @@
 package com.mabez.com.mabez.gameStates;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +18,8 @@ public class GameState extends BaseState {
     public GameState(SceneManager sm) {
         super(sm);
     }
+
+    private static final int maxBullets = 4;
     private ShapeRenderer sr;
     private BitmapFont font;
     private SpriteBatch sb;
@@ -23,12 +27,23 @@ public class GameState extends BaseState {
 
     private Player player;
     private ArrayList<Asteroid> asteroids;
+    public ArrayList<Bullet> bullets;
     private static int  NUM_ASTEROIDS = 4;
     private boolean EscapeToggle = false;
+    private Sound bulletNoise;
+    private Sound thruster;
+
     @Override
 
     public void init() {
         isPaused=false;
+
+
+        resManager.loadSound("sounds/bounce.ogg", "bullet");
+        resManager.loadSound("sounds/flame.wav","flame");
+        bulletNoise = resManager.getSound("bullet");//sound for bullets, pretty good Imo
+        thruster = resManager.getSound("flame");//sound for thrusters, need work because it sounds retarded
+
 
         font = new BitmapFont();
         font.setColor(Color.WHITE);
@@ -36,8 +51,10 @@ public class GameState extends BaseState {
         sb =  new SpriteBatch();
 
 
-        player = new Player(sm.cam);
+        player = new Player(sm.cam,sm);
         asteroids = new ArrayList<Asteroid>();
+        bullets = new ArrayList<Bullet>();
+
         sr = new ShapeRenderer();
         player.setShape();
     }
@@ -57,7 +74,7 @@ public class GameState extends BaseState {
 
         player.draw(sr);
 
-        for(Bullet b: player.bullets){
+        for(Bullet b: bullets){
             b.draw(sr);
         }
 
@@ -80,15 +97,17 @@ public class GameState extends BaseState {
             player.update(dt);
 
 
+
             for (int i = 0; i < asteroids.size(); i++) {
                 asteroids.get(i).update(dt);
             }
 
-            for (int i = 0; i < player.bullets.size(); i++) {
-                if (player.bullets.get(i).shouldRemove()) {
-                    player.bullets.remove(i);
+
+            for (int i = 0; i < bullets.size(); i++) {
+                if (bullets.get(i).shouldRemove()) {
+                    bullets.remove(i);
                 } else {
-                    player.bullets.get(i).update(dt);
+                    bullets.get(i).update(dt);
                 }
 
             }
@@ -100,14 +119,16 @@ public class GameState extends BaseState {
                 asteroids.add(new Asteroid(sm.cam));
             }
 
+
+
             checkCollisions();
         }
     }
 
     private void checkCollisions(){
-        for(int i=0;i<player.bullets.size();i++){
+        for(int i=0;i<bullets.size();i++){
             for(int j=0;j<asteroids.size();j++){
-                Bullet b = player.bullets.get(i);
+                Bullet b = bullets.get(i);
                 Asteroid a = asteroids.get(j);
                 float xa= a.getX();
                 float ya= a.getY();
@@ -125,6 +146,17 @@ public class GameState extends BaseState {
         return b;
     }
 
+    public void fire(float x,float y, float direction){
+        if(bullets.size()== maxBullets){
+            return;
+        } else {
+            bullets.add(new Bullet(x, y, direction,sm.cam));
+            bulletNoise.play(0.08f);
+
+
+        }
+    }
+
 
 
 
@@ -132,6 +164,7 @@ public class GameState extends BaseState {
     public void HandleInput() {
         if (MyKeys.isDown(MyKeys.W)) {
             player.up = true;
+
         } else {
             player.up = false;
         }
@@ -145,10 +178,8 @@ public class GameState extends BaseState {
         } else {
             player.right = false;
         }
-        if (MyKeys.isDown(MyKeys.SPACE)) {
-            player.space = true;
-        } else {
-            player.space = false;
+        if (MyKeys.isPressed(MyKeys.SPACE)) {
+            fire(player.getX(), player.getY(), player.getDirectionRad());
         }
         if (MyKeys.isPressed(MyKeys.SHIFT)) {
             player.shift = true;
@@ -170,7 +201,8 @@ public class GameState extends BaseState {
 
     @Override
     public void dispose() {
-
+        resManager.unLoadSound("flame");
+        resManager.unLoadSound("bullet");
     }
 }
 

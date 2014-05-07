@@ -14,6 +14,9 @@ public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
     private SceneManager sm;
+
+
+
     private OrthographicCamera cam;
     public static int camHeight;
     public static int camWidth;
@@ -28,6 +31,8 @@ public class Main extends ApplicationAdapter {
 	    cam = new OrthographicCamera(camWidth,camHeight);
         Gdx.input.setInputProcessor(new MyInputProccesor());
         sm = new SceneManager(cam);
+
+
 	}
 
 	@Override
