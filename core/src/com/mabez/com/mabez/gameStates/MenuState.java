@@ -8,12 +8,15 @@ import com.mabez.com.mabez.entities.Player;
 import com.mabez.managers.MyKeys;
 import com.mabez.managers.SceneManager;
 
+import java.awt.*;
+
 /**
  * Created by user on 03/05/2014.
  */
 public class MenuState extends BaseState {
 
     private BitmapFont font;
+
     private SpriteBatch sb;
 
     public MenuState(SceneManager sm) {
@@ -25,7 +28,7 @@ public class MenuState extends BaseState {
         font= new BitmapFont();
         sb = new SpriteBatch();
         font.setColor(1,1,1,1);
-        font.setScale(5,5);
+        font.setScale(3,3);
 
 
     }
@@ -35,7 +38,9 @@ public class MenuState extends BaseState {
     @Override
     public void draw() {
         sb.begin();
-        font.draw(sb,"ASTEROIDS",sm.cam.viewportWidth/2,sm.cam.viewportWidth/2-font.getLineHeight());
+        font.draw(sb,"ASTEROIDS",sm.cam.viewportWidth/2-font.getBounds("ASTEROIDS").width/2,sm.cam.viewportHeight/2-font.getBounds("ASTEROIDS").height+ 150);
+
+        //font.draw(sb,"Play",sm.cam.viewportWidth/2-font.getBounds("Play").width/2,sm.cam.viewportHeight/2-font.getBounds("Play").height+ 50);
         sb.end();
     }
 

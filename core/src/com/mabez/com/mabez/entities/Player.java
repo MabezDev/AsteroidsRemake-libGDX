@@ -26,6 +26,8 @@ public class Player extends SpaceObject {
     private float boostTimer;
     private float boostTime;
 
+    private boolean isAlive;
+    private boolean canFire;
 
     protected OrthographicCamera cam;
     private SceneManager sm;
@@ -38,6 +40,8 @@ public class Player extends SpaceObject {
         this.cam=cam;
         this.sm =sm;
 
+        isAlive = true;
+        canFire = true;
 
         y = this.cam.viewportHeight/2;//set initialize player in the centre
         x = this.cam.viewportWidth/2;
@@ -145,6 +149,18 @@ public class Player extends SpaceObject {
         //update bullets
 
         setShape();
+    }
+    public boolean isAlive(){
+        return isAlive;
+    }
+
+    public void setDead(){
+        isAlive = false;
+        canFire =false;
+    }
+
+    public boolean canFire(){
+        return canFire;
     }
 
     public void draw(ShapeRenderer sr){

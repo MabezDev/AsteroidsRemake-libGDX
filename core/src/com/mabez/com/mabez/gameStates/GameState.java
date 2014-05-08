@@ -32,6 +32,7 @@ public class GameState extends BaseState {
     private boolean EscapeToggle = false;
     private Sound bulletNoise;
     private Sound thruster;
+    float counter = 0;
 
     @Override
 
@@ -48,36 +49,37 @@ public class GameState extends BaseState {
         font = new BitmapFont();
         font.setColor(Color.WHITE);
 
-        sb =  new SpriteBatch();
+        sb =  new SpriteBatch();// for font drawing
 
 
-        player = new Player(sm.cam,sm);
-        asteroids = new ArrayList<Asteroid>();
-        bullets = new ArrayList<Bullet>();
+        player = new Player(sm.cam,sm);//create instance of the player
+        asteroids = new ArrayList<Asteroid>();//instantiate array of asteroids
+        bullets = new ArrayList<Bullet>();//instantiate array of bullets
 
-        sr = new ShapeRenderer();
-        player.setShape();
+        sr = new ShapeRenderer();//for rendering the player
+
+        player.setShape();// initialize player shape
     }
 
-       public void Pause(){
-           isPaused = true;
-
-       }
+       public void Pause(){ isPaused = true; } //setter for pausing the game
 
         public void Resume(){
             isPaused = false;
-        }
+        } // setter for resuming the game
 
 
     @Override
     public void draw() {
 
-        player.draw(sr);
+        //if the player is alive draw the ship and bullets
+        if(player.isAlive()) {
+            player.draw(sr);
 
-        for(Bullet b: bullets){
-            b.draw(sr);
+            for(Bullet b: bullets){
+                b.draw(sr);
+            }
         }
-
+        //draw asteroid always
         for(int i =0; i<asteroids.size();i++){
             asteroids.get(i).draw(sr);
         }
@@ -87,29 +89,43 @@ public class GameState extends BaseState {
                     sm.cam.viewportHeight/2-font.getBounds("Paused").height/2);
             sb.end();
         }
+        if(!player.isAlive()){
+            sb.begin();
+            font.draw(sb,"Game Over",sm.cam.viewportWidth/2-(float)font.getBounds("Game Over").width/2,
+                    sm.cam.viewportHeight/2-font.getBounds("Game Over").height/2);
+            sb.end();
+        }
 
     }
 
     @Override
     public void update(float dt) {
-
+        //if paused don't update anything
         if(isPaused==false) {
-            player.update(dt);
+            //if player is dead go back to menu after 2 seconds
+            if(player.isAlive()) {
+                player.update(dt);
+                for (int i = 0; i < bullets.size(); i++) {
+                    if (bullets.get(i).shouldRemove()) {
+                        bullets.remove(i);
+                    } else {
+                        bullets.get(i).update(dt);
+                    }
 
-
-
-            for (int i = 0; i < asteroids.size(); i++) {
-                asteroids.get(i).update(dt);
-            }
-
-
-            for (int i = 0; i < bullets.size(); i++) {
-                if (bullets.get(i).shouldRemove()) {
-                    bullets.remove(i);
-                } else {
-                    bullets.get(i).update(dt);
                 }
 
+            } else {
+                counter += dt;
+                if(counter > 2.5f) {// two seconds of delay till going back to the main menu
+                    sm.setState(sm.MENU);
+                } else {
+
+                }
+
+            }
+            //always update asteroids
+            for (int i = 0; i < asteroids.size(); i++) {
+                asteroids.get(i).update(dt);
             }
 
 
@@ -125,6 +141,12 @@ public class GameState extends BaseState {
         }
     }
 
+
+    /*
+        Creates a rectangle hit box around the objects then checks
+        if any overlap returning a boolean where it collides
+        or not.
+     */
     private void checkCollisions(){
         for(int i=0;i<bullets.size();i++){
             for(int j=0;j<asteroids.size();j++){
@@ -135,17 +157,26 @@ public class GameState extends BaseState {
                 float xb= b.getX();
                 float yb = b.getY();
                 if(contains(xa,ya,xb,yb)){
-
-                    //bullets.remove(i);
                     asteroids.remove(j);
 
                 }
 
             }
         }
+
+        for(int i =0; i<asteroids.size();i++){
+            Asteroid a = asteroids.get(i);
+            float asteroidx = a.getX();
+            float asteroidy = a.getY();
+            float playerx = player.getX();
+            float playery = player.getY();
+            if(contains(asteroidx,asteroidy,playerx+12,playery+10)){
+                player.setDead();
+            }
+        }
     }
 
-    private boolean contains(float asteroidx,float asteroidy,float bulletx, float bullety) {//need to sorth out collision
+    private boolean contains(float asteroidx,float asteroidy,float bulletx, float bullety) {// function for creating hit box and comparing
         boolean b = false;
         if ((bulletx > asteroidx && bulletx < asteroidx + 40) && (bullety > asteroidy && bullety < asteroidy + 40)){
             b = true;
@@ -155,10 +186,10 @@ public class GameState extends BaseState {
 
     public void fire(float x,float y, float direction){
         if(bullets.size()== maxBullets){
-            return;
+            return;//do nothing
         } else {
-            bullets.add(new Bullet(x, y, direction,sm.cam));
-            bulletNoise.play(0.08f);
+            bullets.add(new Bullet(x, y, direction,sm.cam));//create new bullet instance
+            bulletNoise.play(0.08f);//playSound
 
 
         }
@@ -168,7 +199,7 @@ public class GameState extends BaseState {
 
 
     @Override
-    public void HandleInput() {
+    public void HandleInput() {//
         if (MyKeys.isDown(MyKeys.W)) {
             player.up = true;
 
