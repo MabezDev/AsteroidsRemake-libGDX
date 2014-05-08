@@ -15,6 +15,7 @@ import com.mabez.managers.SceneManager;
 import java.util.ArrayList;
 
 public class GameState extends BaseState {
+
     public GameState(SceneManager sm) {
         super(sm);
     }
@@ -217,7 +218,9 @@ public class GameState extends BaseState {
             player.right = false;
         }
         if (MyKeys.isPressed(MyKeys.SPACE)) {
-            fire(player.getX(), player.getY(), player.getDirectionRad());
+            if(player.isAlive()) {
+                fire(player.getX(), player.getY(), player.getDirectionRad());
+            }
         }
         if (MyKeys.isPressed(MyKeys.SHIFT)) {
             player.shift = true;
