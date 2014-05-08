@@ -25,7 +25,7 @@ public class Asteroid extends SpaceObject {
         shapey = new float[6];
 
         directionRad = Pi/2;
-        setShape();
+        //setShape();
     }
 
 
@@ -47,6 +47,8 @@ public class Asteroid extends SpaceObject {
 
         shapex[5] = x+ MathUtils.cos(directionRad+ Pi/7)*20;
         shapey[5] = y +MathUtils.sin(directionRad+ Pi/7)*20;
+
+
     }
 
 
@@ -75,7 +77,7 @@ public class Asteroid extends SpaceObject {
         y+=dy*dt;
         x+=dx*dt;
 
-        setShape();
+        //setShape();
 
 
     }
@@ -85,9 +87,12 @@ public class Asteroid extends SpaceObject {
 
         sr.setColor(1,1,1,1);
 
-        for(int i = 0, j = shapex.length - 1;i<shapex.length;j=i++){
+        sr.rect(x,y,40,40);
+
+       /* for(int i = 0, j = shapex.length - 1;i<shapex.length;j=i++){
             sr.line(shapex[i],shapey[i],shapex[j],shapey[j]);
         }
+        */
 
         sr.end();
     }

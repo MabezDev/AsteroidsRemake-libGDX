@@ -134,15 +134,22 @@ public class GameState extends BaseState {
                 float ya= a.getY();
                 float xb= b.getX();
                 float yb = b.getY();
-                contains(xa,ya,xb,yb);
+                if(contains(xa,ya,xb,yb)){
+
+                    //bullets.remove(i);
+                    asteroids.remove(j);
+
+                }
 
             }
         }
     }
 
-    private boolean contains(float xa,float ya,float xb, float yb){//need to sorth out collision
+    private boolean contains(float asteroidx,float asteroidy,float bulletx, float bullety) {//need to sorth out collision
         boolean b = false;
-
+        if ((bulletx > asteroidx && bulletx < asteroidx + 40) && (bullety > asteroidy && bullety < asteroidy + 40)){
+            b = true;
+        }
         return b;
     }
 

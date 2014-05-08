@@ -38,7 +38,7 @@ public class Bullet extends SpaceObject {
         lifeTimer = 0;
         dx = 0;
         dy=0;
-        maxSpeed = 350;
+        maxSpeed = 275;
         acceleration = 350;
         //declare vars
 
