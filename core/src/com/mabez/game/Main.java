@@ -55,14 +55,16 @@ public class Main extends ApplicationAdapter {
         sm.update(Gdx.graphics.getDeltaTime());
         sm.draw();
         MyKeys.update();
-        HandleAcceleromter();
 
+        if(Device.equals("_android")) {
+            HandleAcceleromter();
+        }
 
 	}
 
     public static void HandleAcceleromter(){
         float orentation = Gdx.input.getRotation();
-        System.out.println("NATIVE-OREINTATION: "+Float.toString(orentation));
+        System.out.println("NATIVE-OREINTATION: " + Float.toString(orentation));
         accelX = Gdx.input.getAccelerometerX();
         accelY = Gdx.input.getAccelerometerY();
         accelZ = Gdx.input.getAccelerometerZ();
