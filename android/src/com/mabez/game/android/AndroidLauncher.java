@@ -7,10 +7,15 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.mabez.game.Main;
 
 public class AndroidLauncher extends AndroidApplication {
+
+    public static String DEVICE = "_android";
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new Main(), config);
+        config.useGLSurfaceView20API18 = true;
+        config.useAccelerometer =true;
+        config.useCompass = true;
+		initialize(new Main(DEVICE), config);
 	}
 }

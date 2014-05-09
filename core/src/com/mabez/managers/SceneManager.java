@@ -16,9 +16,11 @@ public class SceneManager {
     private static BaseState currentState;
     public OrthographicCamera cam;
     public static ResourceManager resourceManager;
+    public static String Device;
 
-    public SceneManager(OrthographicCamera cam) {
+    public SceneManager(OrthographicCamera cam,String Device) {
         this.cam = cam;
+        this.Device = Device;
         resourceManager = new ResourceManager();
         setState(MENU);
 

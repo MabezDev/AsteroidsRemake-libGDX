@@ -200,7 +200,7 @@ public class GameState extends BaseState {
 
 
     @Override
-    public void HandleInput() {//
+    public void HandleInput() {
         if (MyKeys.isDown(MyKeys.W)) {
             player.up = true;
 
