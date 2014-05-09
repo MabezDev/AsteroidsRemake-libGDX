@@ -35,6 +35,10 @@ public class GameState extends BaseState {
     private Sound thruster;
     float counter = 0;
 
+    private float accelX;
+    private float accelY;
+    private float accelZ;
+
     @Override
 
     public void init() {
@@ -47,7 +51,7 @@ public class GameState extends BaseState {
         thruster = resManager.getSound("flame");//sound for thrusters, need work because it sounds retarded
 
 
-        font = new BitmapFont();
+        font = new BitmapFont();//initialize font
         font.setColor(Color.WHITE);
 
         sb =  new SpriteBatch();// for font drawing
@@ -158,7 +162,8 @@ public class GameState extends BaseState {
                 float xb= b.getX();
                 float yb = b.getY();
                 if(contains(xa,ya,xb,yb)){
-                    asteroids.remove(j);
+                    asteroids.remove(j);// removes asteroid
+                    bullets.get(i).setDead();//notifies loop for it to be cleaned up
 
                 }
 
@@ -201,43 +206,79 @@ public class GameState extends BaseState {
 
     @Override
     public void HandleInput() {
-        if (MyKeys.isDown(MyKeys.W)) {
-            player.up = true;
+        if(sm.Device.equals("_desktop")) {
+            if (MyKeys.isDown(MyKeys.W)) {
+                player.up = true;
 
-        } else {
-            player.up = false;
+            } else {
+                player.up = false;
+            }
+            if (MyKeys.isDown(MyKeys.A)) {
+                player.left = true;
+            } else {
+                player.left = false;
+            }
+            if (MyKeys.isDown(MyKeys.D)) {
+                player.right = true;
+            } else {
+                player.right = false;
+            }
+
+            if (MyKeys.isPressed(MyKeys.SHIFT)) {
+                player.shift = true;
+            } else {
+                player.shift = false;
+            }
+            if (MyKeys.isPressed(MyKeys.ESCAPE)) {
+                EscapeToggle = !EscapeToggle;
+
+
+                if (EscapeToggle) {
+                    Pause();
+                } else {
+                    Resume();
+                }
+
+            }
+        } else if(sm.Device.equals("_android")){
+            HandleAcceleromter();
         }
-        if (MyKeys.isDown(MyKeys.A)) {
-            player.left = true;
-        } else {
-            player.left = false;
-        }
-        if (MyKeys.isDown(MyKeys.D)) {
-            player.right = true;
-        } else {
-            player.right = false;
-        }
+
         if (MyKeys.isPressed(MyKeys.SPACE)) {
-            if(player.isAlive()) {
+            if (player.isAlive()) {
                 fire(player.getX(), player.getY(), player.getDirectionRad());
             }
         }
-        if (MyKeys.isPressed(MyKeys.SHIFT)) {
-            player.shift = true;
+    }
+
+    public void HandleAcceleromter(){
+        float orentation = Gdx.input.getRotation();
+        System.out.println("NATIVE-OREINTATION: " + Float.toString(orentation));
+        accelX = Gdx.input.getAccelerometerX();
+        accelY = Gdx.input.getAccelerometerY();
+        accelZ = Gdx.input.getAccelerometerZ();
+        System.out.println("ACCEL-X: "+Float.toString(accelX));
+        System.out.println("ACCEL-Y: "+Float.toString(accelY));
+        System.out.println("ACCEL-Z: "+Float.toString(accelZ));
+        if(accelX<9 && accelX > 2){
+            player.up = true;
+        }
+        else{
+            player.up=false;
+        }
+        if(accelY>2){
+            player.right=true;
         } else {
-            player.shift = false;
+            player.right=false;
         }
-        if (MyKeys.isPressed(MyKeys.ESCAPE)) {
-            EscapeToggle = !EscapeToggle;
-
-
-            if (EscapeToggle) {
-                Pause();
-            } else{
-                Resume();
-            }
-
+        if(accelY<-2){
+            player.left=true;
+        }else{
+            player.left=false;
         }
+
+
+
     }
 
     @Override

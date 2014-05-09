@@ -16,6 +16,7 @@ public class AndroidLauncher extends AndroidApplication {
         config.useGLSurfaceView20API18 = true;
         config.useAccelerometer =true;
         config.useCompass = true;
+        config.resolutionStrategy.calcMeasures(800,600);
 		initialize(new Main(DEVICE), config);
 	}
 }

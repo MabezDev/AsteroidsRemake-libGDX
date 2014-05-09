@@ -61,8 +61,13 @@ public class Player extends SpaceObject {
         boostTime = 1;
 
         directionRad = Pi/2;//set so the player faces up
-        rotationSpeed = Pi;
-
+        if(sm.Device.equals("_desktop")) {
+            rotationSpeed = Pi;
+        } else if(sm.Device.equals("_android")){
+            rotationSpeed = (3*Pi)/4;
+            retardation = 30;
+            setMaxSpeed(175);
+        }
 
 
     }

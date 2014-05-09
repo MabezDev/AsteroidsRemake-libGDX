@@ -54,6 +54,10 @@ public class Bullet extends SpaceObject {
 
     public boolean shouldRemove(){return remove;}
 
+    public void setDead(){
+        remove=true;
+    }
+
     public void update(float dt){
 
         if(x<0){
