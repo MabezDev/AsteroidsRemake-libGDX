@@ -40,7 +40,7 @@ public class MenuState extends BaseState {
         sb.begin();
         font.draw(sb,"ASTEROIDS",sm.cam.viewportWidth/2-font.getBounds("ASTEROIDS").width/2,sm.cam.viewportHeight/2-font.getBounds("ASTEROIDS").height+ 150);
 
-        //font.draw(sb,"Play",sm.cam.viewportWidth/2-font.getBounds("Play").width/2,sm.cam.viewportHeight/2-font.getBounds("Play").height+ 50);
+        font.draw(sb,"Play",sm.cam.viewportWidth/2-font.getBounds("Play").width/2,sm.cam.viewportHeight/2-font.getBounds("Play").height+ 50);
         sb.end();
     }
 

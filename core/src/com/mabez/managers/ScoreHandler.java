@@ -24,7 +24,6 @@ public class ScoreHandler {
             int zeroes2add = sigFigScore-initialLength;
             for(int i =0;i< zeroes2add;i++){
                 tempString += "0";
-                System.out.println(tempString);
             }
             tempString += Integer.toString(currentScore);
         } else {
