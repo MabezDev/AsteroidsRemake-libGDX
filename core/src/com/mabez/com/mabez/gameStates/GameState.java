@@ -11,6 +11,7 @@ import com.mabez.com.mabez.entities.Bullet;
 import com.mabez.com.mabez.entities.Player;
 import com.mabez.managers.MyKeys;
 import com.mabez.managers.SceneManager;
+import com.mabez.managers.ScoreHandler;
 
 import java.util.ArrayList;
 
@@ -39,11 +40,12 @@ public class GameState extends BaseState {
     private float accelY;
     private float accelZ;
 
+    private ScoreHandler sh;
+
     @Override
 
     public void init() {
         isPaused=false;
-
 
         resManager.loadSound("sounds/bounce.ogg", "bullet");
         resManager.loadSound("sounds/flame.wav","flame");
@@ -56,10 +58,13 @@ public class GameState extends BaseState {
 
         sb =  new SpriteBatch();// for font drawing
 
+        sh = new ScoreHandler();
+
 
         player = new Player(sm.cam,sm);//create instance of the player
         asteroids = new ArrayList<Asteroid>();//instantiate array of asteroids
         bullets = new ArrayList<Bullet>();//instantiate array of bullets
+
 
         sr = new ShapeRenderer();//for rendering the player
 
@@ -68,7 +73,7 @@ public class GameState extends BaseState {
 
        public void Pause(){ isPaused = true; } //setter for pausing the game
 
-        public void Resume(){
+       public void Resume(){
             isPaused = false;
         } // setter for resuming the game
 
@@ -100,6 +105,12 @@ public class GameState extends BaseState {
                     sm.cam.viewportHeight/2-font.getBounds("Game Over").height/2);
             sb.end();
         }
+
+        sb.begin();
+
+        font.draw(sb,sh.getScoreString(),0 + font.getBounds("00000000").width/4,
+                sm.cam.viewportHeight-font.getBounds("00000000").height);
+        sb.end();
 
     }
 
@@ -164,6 +175,7 @@ public class GameState extends BaseState {
                 if(contains(xa,ya,xb,yb)){
                     asteroids.remove(j);// removes asteroid
                     bullets.get(i).setDead();//notifies loop for it to be cleaned up
+                    sh.incrementScore(100);//increments score
 
                 }
 
@@ -241,7 +253,7 @@ public class GameState extends BaseState {
 
             }
         } else if(sm.Device.equals("_android")){
-            HandleAcceleromter();
+            HandleAccelerometer();
         }
 
         if (MyKeys.isPressed(MyKeys.SPACE)) {
@@ -251,15 +263,15 @@ public class GameState extends BaseState {
         }
     }
 
-    public void HandleAcceleromter(){
-        float orentation = Gdx.input.getRotation();
-        System.out.println("NATIVE-OREINTATION: " + Float.toString(orentation));
+    public void HandleAccelerometer(){
+        float orientation = Gdx.input.getRotation();
+        System.out.println("NATIVE-ORIENTATION: " + Float.toString(orientation));
         accelX = Gdx.input.getAccelerometerX();
         accelY = Gdx.input.getAccelerometerY();
         accelZ = Gdx.input.getAccelerometerZ();
-        System.out.println("ACCEL-X: "+Float.toString(accelX));
-        System.out.println("ACCEL-Y: "+Float.toString(accelY));
-        System.out.println("ACCEL-Z: "+Float.toString(accelZ));
+        //System.out.println("ACCEL-X: "+Float.toString(accelX));
+        //System.out.println("ACCEL-Y: "+Float.toString(accelY));
+        //System.out.println("ACCEL-Z: "+Float.toString(accelZ));
         if(accelX<9 && accelX > 2){
             player.up = true;
         }

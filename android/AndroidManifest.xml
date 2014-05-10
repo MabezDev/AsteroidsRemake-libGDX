@@ -19,7 +19,7 @@
 
         <activity
             android:name="com.mabez.game.android.AndroidLauncher"
-            android:label="IntelliJ"
+            android:label="Asteroids"
             android:screenOrientation="landscape"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
             <intent-filter>
