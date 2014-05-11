@@ -241,17 +241,7 @@ public class GameState extends BaseState {
             } else {
                 player.shift = false;
             }
-            if (MyKeys.isPressed(MyKeys.ESCAPE)) {
-                EscapeToggle = !EscapeToggle;
 
-
-                if (EscapeToggle) {
-                    Pause();
-                } else {
-                    Resume();
-                }
-
-            }
         } else if(sm.Device.equals("_android")){
             HandleAccelerometer();
         }
@@ -261,11 +251,23 @@ public class GameState extends BaseState {
                 fire(player.getX(), player.getY(), player.getDirectionRad());
             }
         }
+
+        if (MyKeys.isPressed(MyKeys.ESCAPE)) {
+            EscapeToggle = !EscapeToggle;
+
+
+            if (EscapeToggle) {
+                Pause();
+            } else {
+                Resume();
+            }
+
+        }
     }
 
     public void HandleAccelerometer(){
         float orientation = Gdx.input.getRotation();
-        System.out.println("NATIVE-ORIENTATION: " + Float.toString(orientation));
+        //System.out.println("NATIVE-ORIENTATION: " + Float.toString(orientation));
         accelX = Gdx.input.getAccelerometerX();
         accelY = Gdx.input.getAccelerometerY();
         accelZ = Gdx.input.getAccelerometerZ();

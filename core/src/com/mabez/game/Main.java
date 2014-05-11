@@ -41,6 +41,7 @@ public class Main extends ApplicationAdapter {
             System.out.println("Gathering Input From: DESKTOP");
             Gdx.input.setInputProcessor(new MyInputProccesor());
         } else if(Device.equals("_android")){
+            Gdx.input.setCatchBackKey(true);
             System.out.println("Gathering Input From: ANDROID");
             Gdx.input.setInputProcessor(new AndroidInputProcessor());
         }

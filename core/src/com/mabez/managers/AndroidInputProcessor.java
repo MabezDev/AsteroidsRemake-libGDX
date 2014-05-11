@@ -13,11 +13,17 @@ public class AndroidInputProcessor implements InputProcessor{
 
     @Override
     public boolean keyDown(int keycode) {
+        if(keycode==Input.Keys.BACK){
+            MyKeys.setKeyState(MyKeys.ESCAPE,true);
+        }
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        if(keycode==Input.Keys.BACK){
+            MyKeys.setKeyState(MyKeys.ESCAPE,false);
+        }
         return false;
     }
 
