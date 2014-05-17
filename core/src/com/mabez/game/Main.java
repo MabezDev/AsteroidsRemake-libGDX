@@ -36,7 +36,6 @@ public class Main extends ApplicationAdapter {
     @Override
 	public void create () {
 	    cam = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        Gdx.input.setInputProcessor(new MyInputProccesor());
         if(Device.equals("_desktop")){
             System.out.println("Gathering Input From: DESKTOP");
             Gdx.input.setInputProcessor(new MyInputProccesor());

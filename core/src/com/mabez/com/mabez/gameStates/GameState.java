@@ -97,6 +97,8 @@ public class GameState extends BaseState {
             sb.begin();
             font.draw(sb,"Paused",sm.cam.viewportWidth/2-(float)font.getBounds("Paused").width/2,
                     sm.cam.viewportHeight/2-font.getBounds("Paused").height/2);
+            font.draw(sb,"Quit",sm.cam.viewportWidth/2-(float)font.getBounds("Quit").width/2,
+                    sm.cam.viewportHeight/2-font.getBounds("Quit").height/2-(50));
             sb.end();
         }
         if(!player.isAlive()){
@@ -203,13 +205,15 @@ public class GameState extends BaseState {
     }
 
     public void fire(float x,float y, float direction){
-        if(bullets.size()== maxBullets){
-            return;//do nothing
-        } else {
-            bullets.add(new Bullet(x, y, direction,sm.cam));//create new bullet instance
-            bulletNoise.play(0.08f);//playSound
+        if(!isPaused) {
+            if (bullets.size() == maxBullets) {
+                return;//do nothing
+            } else {
+                bullets.add(new Bullet(x, y, direction, sm.cam));//create new bullet instance
+                bulletNoise.play(0.08f);//playSound
 
 
+            }
         }
     }
 

@@ -3,12 +3,11 @@ package com.mabez.com.mabez.gameStates;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mabez.com.mabez.entities.Player;
 import com.mabez.managers.MyKeys;
 import com.mabez.managers.SceneManager;
 
-import java.awt.*;
+import java.util.HashMap;
+
 
 /**
  * Created by user on 03/05/2014.
@@ -16,8 +15,13 @@ import java.awt.*;
 public class MenuState extends BaseState {
 
     private BitmapFont font;
+    private BitmapFont titleFont;
 
     private SpriteBatch sb;
+    private HashMap<Integer,String> options;
+    private String currentOption;
+    private int index;
+
 
     public MenuState(SceneManager sm) {
         super(sm);
@@ -26,22 +30,47 @@ public class MenuState extends BaseState {
     @Override
     public void init() {
         font= new BitmapFont();
+        titleFont = new BitmapFont();
         sb = new SpriteBatch();
         font.setColor(1,1,1,1);
-        font.setScale(3,3);
+        font.setScale(1, 1);
+        titleFont.setColor(1, 1, 1, 1);
+        titleFont.setScale(3, 3);
+        options = new HashMap<Integer, String>();
+        options.put(0,"Play");
+        options.put(1,"HighScores");
+        options.put(2,"Quit");
+        currentOption = "Play";
+        index = 0;
 
 
     }
 
 
 
+
+
+
+
     @Override
     public void draw() {
         sb.begin();
-        font.draw(sb,"ASTEROIDS",sm.cam.viewportWidth/2-font.getBounds("ASTEROIDS").width/2,sm.cam.viewportHeight/2-font.getBounds("ASTEROIDS").height+ 150);
+        drawFont(titleFont,150,"ASTEROIDS",Color.WHITE);
+        for(int i =0;i<options.size();i++){
+            String temp = (String) options.get(i);
 
-        font.draw(sb,"Play",sm.cam.viewportWidth/2-font.getBounds("Play").width/2,sm.cam.viewportHeight/2-font.getBounds("Play").height+ 50);
+            if(temp.equals(currentOption)){
+                drawFont(font,125+((i + 1)*-65),temp,Color.RED);
+            }
+            drawFont(font,125 + ((i + 1) * -65), temp, Color.WHITE);
+        }
         sb.end();
+    }
+
+    private void drawFont(BitmapFont f,int y,String Text,Color c){
+        BitmapFont font1 = f;
+        font1.setColor(c);
+        font1.draw(sb,Text,sm.cam.viewportWidth/2-font1.getBounds(Text).width/2,sm.cam.viewportHeight/2-font1.getBounds(Text).height+ y);
     }
 
     @Override
@@ -52,15 +81,44 @@ public class MenuState extends BaseState {
 
     @Override
     public void HandleInput() {
-        if(MyKeys.isDown(MyKeys.SPACE)){
-            sm.setState(sm.GAME);
+        if(MyKeys.isPressed(MyKeys.W)){
+            if(index<=0){
+                index= options.size()-1;
+            }else{
+                index--;
+            }
+        }
+        if(MyKeys.isPressed(MyKeys.S)){
+            if(index>=options.size()-1){
+                index=0;
+            }else {
+                index++;
+            }
+        }
+        currentOption = options.get(index);
+        //System.out.println(currentOption);
+        //System.out.println(index);
+        if(MyKeys.isPressed(MyKeys.SPACE)) {
+            doChoice(index);
         }
 
+
+    }
+
+    private void doChoice(int choice){
+        String temp = options.get(choice);
+        if(temp.equals("Play")){
+            sm.setState(1);
+        }
+        if(temp.equals("Quit")){
+            System.exit(0);
+        }
     }
 
     @Override
     public void dispose() {
-
+        font.dispose();
+        titleFont.dispose();
     }
 }
 
