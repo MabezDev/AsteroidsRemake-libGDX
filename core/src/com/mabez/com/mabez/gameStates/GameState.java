@@ -303,6 +303,7 @@ public class GameState extends BaseState {
     public void dispose() {
         resManager.unLoadSound("flame");
         resManager.unLoadSound("bullet");
+        font.dispose();
     }
 }
 

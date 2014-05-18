@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.mabez.com.mabez.gameStates.BaseState;
 import com.mabez.com.mabez.gameStates.GameState;
 import com.mabez.com.mabez.gameStates.MenuState;
+import com.mabez.com.mabez.gameStates.SplashState;
 
 /**
  * Created by user on 03/05/2014.
@@ -12,6 +13,7 @@ public class SceneManager {
 
     public static final int MENU = 0;
     public static final int GAME = 1;
+    public static final int SPLASH = 3;
     public static final int GG = 2;
     private static BaseState currentState;
     public OrthographicCamera cam;
@@ -22,11 +24,17 @@ public class SceneManager {
         this.cam = cam;
         this.Device = Device;
         resourceManager = new ResourceManager();
-        setState(MENU);
+        setState(SPLASH);
 
     }
 
     public void setState(int i){
+        if(currentState!=null){
+            currentState.dispose();
+        }
+        if(i==SPLASH){
+            currentState = new SplashState(this);
+        }
         if(i==MENU){
             currentState = new MenuState(this);
         }

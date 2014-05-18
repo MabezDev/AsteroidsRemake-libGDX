@@ -96,8 +96,6 @@ public class MenuState extends BaseState {
             }
         }
         currentOption = options.get(index);
-        //System.out.println(currentOption);
-        //System.out.println(index);
         if(MyKeys.isPressed(MyKeys.SPACE)) {
             doChoice(index);
         }
@@ -108,7 +106,7 @@ public class MenuState extends BaseState {
     private void doChoice(int choice){
         String temp = options.get(choice);
         if(temp.equals("Play")){
-            sm.setState(1);
+            sm.setState(SceneManager.GAME);
         }
         if(temp.equals("Quit")){
             System.exit(0);
